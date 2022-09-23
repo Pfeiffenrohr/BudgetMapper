@@ -1,43 +1,83 @@
 package de.lechner.budgetmapper.kontofiles;
 
-import com.opencsv.CSVParser;
-import com.opencsv.CSVParserBuilder;
-import com.opencsv.CSVReader;
-import com.opencsv.CSVReaderBuilder;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+import de.lechner.budgetmapper.transaction.ApiCall;
+import de.lechner.budgetmapper.transaction.Transaction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.FileReader;
-import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
+
 
 @Service
 public class KontofileService {
+
+    @Autowired
+    ApiCall apicall = new ApiCall();
+
+    private static final Logger LOG = LoggerFactory.getLogger(KontofileService.class);
     public String readCsvFile(String str) throws Exception {
-        List <Kontofile> list = new ArrayList<Kontofile>();
-        System.out.println(str);
-
+        List <BankKontoLine> list = new ArrayList<BankKontoLine>();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         list = readAllLines(str);
-
-        for (Kontofile konto : list )
+        LOG.info("Read All Lines done!" + list.size() +" Lines");
+        for (BankKontoLine konto : list )
         {
+            Boolean found = false;
+            Calendar calstart = Calendar.getInstance();
+            Calendar calend = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy");
+            calstart.setTime(sdf.parse(konto.getBuchungstag()));
+            calstart.add(Calendar.DATE,-3);
+            calend.setTime(sdf.parse(konto.getBuchungstag()));
+            calend.add(Calendar.DATE,3);
+            //LOG.info("Startdate = "+konto.getBuchungstag());
+            List <Transaction> transactions = apicall.getTransactions(formatter.format(calstart.getTime()),
+                    formatter.format(calend.getTime()));
+            //LOG.info("Found " + transactions.size() +" Transactions  for " +konto.getVerwendungszweck());
+            for (Transaction trans : transactions)
+            {
+              //LOG.info("transWert = " + trans.getWert());
+              //LOG.info("Kontowert = " + new Double(konto.getBetrag().replaceAll(",",".")));
+                if (Objects.equals(trans.getWert(), new Double(konto.getBetrag().replaceAll(",", ".")))) {
+                    //System.out.println("Found Match: " +trans.getName() + " <=> "+konto.getVerwendungszweck());
+                    found = true;
+                }
+                if (konto.getVerwendungszweck().contains("Ihr Einkauf bei PayPal Inc")) {
+                    found = true;
+                }
+                if (konto.getVerwendungszweck().contains("Ihr Einkauf bei EDEKA")) {
+                    found = true;
+                }
+                if (konto.getVerwendungszweck().startsWith("102")) {
+                    found = true;
+                }
+                if (konto.getVerwendungszweck().contains("Grundsteuer")) {
+                    found = true;
+                }
+            }
+            if ( ! found) {
+                System.out.println(konto.getVerwendungszweck());
+            }
             //System.out.println(konto.getVerwendungszweck());
-            //System.out.println(konto.getBetrag());
+
         }
 
-
+        LOG.info("ReadCSVFile done!");
         return "File read";
     }
 
-    public List<Kontofile> readAllLines(String filePath) throws Exception {
+    public List<BankKontoLine> readAllLines(String filePath) throws Exception {
         CsvToBean kontofile = new CsvToBeanBuilder(new FileReader(filePath))
-                .withType(Kontofile.class)
+                .withType(BankKontoLine.class)
                 .withSeparator(';')
                 .withIgnoreLeadingWhiteSpace(true)
                 .withSkipLines(1)
@@ -49,6 +89,6 @@ public class KontofileService {
             System.out.println("Verwendungszweck: " + konto.getVerwendungszweck());
             System.out.println("Buchungstag: " + konto.getBuchungstag());
         }*/
-        return (List<Kontofile>) kontofile.parse();
+        return (List<BankKontoLine>) kontofile.parse();
         }
 }
