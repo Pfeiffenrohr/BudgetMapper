@@ -19,7 +19,6 @@ public class ApiCall {
     @Value("${budgetserver.port}")
     private String port;
     private static final Logger LOG = LoggerFactory.getLogger(ApiCall.class);
-
     public List<Transaction> getTransactions(String startdate, String enddate ) {
         //   LOG.info("Start getAllAnlagen");
         //   LOG.info("Host = "+ host);

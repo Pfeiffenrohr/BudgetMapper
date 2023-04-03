@@ -63,6 +63,9 @@ public class KontofileService {
                 if (konto.getVerwendungszweck().contains("Grundsteuer")) {
                     found = true;
                 }
+                if (konto.getVerwendungszweck().contains("Einkauf bei REWE")) {
+                    found = true;
+                }
             }
             if ( ! found) {
                 System.out.println(konto.getVerwendungszweck());
