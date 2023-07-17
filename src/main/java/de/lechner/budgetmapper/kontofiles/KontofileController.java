@@ -14,6 +14,6 @@ public class KontofileController {
     public String sayHi() throws Exception {
 
 
-        return kontofileService.readCsvFile("C:/temp/20230403-539619-umsatz.CSV");
+        return kontofileService.readCsvFile("C:/temp/20230717-539619-umsatz.CSV");
     }
 }
