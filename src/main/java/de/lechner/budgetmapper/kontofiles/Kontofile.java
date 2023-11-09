@@ -13,6 +13,8 @@ public class Kontofile {
     String verwendungszweck;
     @CsvBindByPosition(position = 14)
     String betrag;
+    @CsvBindByPosition(position = 11)
+    String name;
 
 
 
@@ -30,6 +32,14 @@ public class Kontofile {
 
     public void setVerwendungszweck(String verwendungszweck) {
         this.verwendungszweck = verwendungszweck;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getBetrag() {

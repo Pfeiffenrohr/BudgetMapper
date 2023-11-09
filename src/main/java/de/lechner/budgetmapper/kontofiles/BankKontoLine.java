@@ -11,8 +11,16 @@ public class BankKontoLine {
     private String verwendungszweck;
     @CsvBindByPosition(position = 14)
     private String betrag;
+    @CsvBindByPosition(position = 11)
+    String name;
 
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getBuchungstag() {
         return buchungstag;

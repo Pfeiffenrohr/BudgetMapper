@@ -51,6 +51,12 @@ public class KontofileService {
                     //System.out.println("Found Match: " +trans.getName() + " <=> "+konto.getVerwendungszweck());
                     found = true;
                 }
+                if (konto.getVerwendungszweck().contains("Ihr Einkauf bei Wuensche")) {
+                    found = true;
+                }
+                if (konto.getVerwendungszweck().contains("Ihr Einkauf bei Norma")) {
+                    found = true;
+                }
                 if (konto.getVerwendungszweck().contains("Ihr Einkauf bei PayPal Inc")) {
                     found = true;
                 }
@@ -70,6 +76,66 @@ public class KontofileService {
             if ( ! found) {
                 System.out.println(konto.getVerwendungszweck());
             }
+            //System.out.println(konto.getVerwendungszweck());
+
+        }
+
+        LOG.info("ReadCSVFile done!");
+        return "File read";
+    }
+
+    public String readCsvFile2(String str) throws Exception {
+        List <BankKontoLine> list = new ArrayList<BankKontoLine>();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        list = readAllLines(str);
+        LOG.info("Read All Lines done!" + list.size() +" Lines");
+        for (BankKontoLine konto : list )
+        {
+            Boolean found = false;
+            Calendar calstart = Calendar.getInstance();
+            Calendar calend = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy");
+            calstart.setTime(sdf.parse(konto.getBuchungstag()));
+            calstart.add(Calendar.DATE,-3);
+            calend.setTime(sdf.parse(konto.getBuchungstag()));
+            calend.add(Calendar.DATE,3);
+            //LOG.info("Startdate = "+konto.getBuchungstag());
+            List <Transaction> transactions = apicall.getTransactions(formatter.format(calstart.getTime()),
+                    formatter.format(calend.getTime()));
+            //LOG.info("Found " + transactions.size() +" Transactions  for " +konto.getVerwendungszweck());
+            for (Transaction trans : transactions)
+            {
+                //LOG.info("transWert = " + trans.getWert());
+                //LOG.info("Kontowert = " + new Double(konto.getBetrag().replaceAll(",",".")));
+                if (Objects.equals(trans.getWert(), new Double(konto.getBetrag().replaceAll(",", ".")))) {
+                    System.out.println("Found Match: " +trans.getName() + " <=> "+konto.getVerwendungszweck());
+                    found = true;
+                }
+                if (konto.getName().contains("Ralph Jockisch")) {
+                    found = true;
+                }
+
+                if (konto.getName().contains("Claudia Fischer")) {
+                    found = true;
+                }
+                if (konto.getName().contains("Andreas Gutmann ")) {
+                    found = true;
+                }
+                if (konto.getName().contains("Jana Schaeffer")) {
+                    found = true;
+                }
+                if (konto.getName().contains("Guta Hvsen")) {
+                    found = true;
+                }
+                if (konto.getName().contains("Emeric Loerincz")) {
+                    found = true;
+                }
+
+            }
+            if ( ! found) {
+                System.out.println(konto.getVerwendungszweck());
+            }
+
             //System.out.println(konto.getVerwendungszweck());
 
         }
