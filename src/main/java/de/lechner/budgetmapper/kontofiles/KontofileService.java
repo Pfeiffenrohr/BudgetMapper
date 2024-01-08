@@ -47,7 +47,8 @@ public class KontofileService {
             {
               //LOG.info("transWert = " + trans.getWert());
               //LOG.info("Kontowert = " + new Double(konto.getBetrag().replaceAll(",",".")));
-                if (Objects.equals(trans.getWert(), new Double(konto.getBetrag().replaceAll(",", ".")))) {
+
+                if (Objects.equals(trans.getWert(),Double.parseDouble(konto.getBetrag().replaceAll(",", ".")))) {
                     //System.out.println("Found Match: " +trans.getName() + " <=> "+konto.getVerwendungszweck());
                     found = true;
                 }
@@ -61,6 +62,12 @@ public class KontofileService {
                     found = true;
                 }
                 if (konto.getVerwendungszweck().contains("Ihr Einkauf bei EDEKA")) {
+                    found = true;
+                }
+                if (konto.getVerwendungszweck().contains("Ihr Einkauf bei Baeckerei Wiesender")) {
+                    found = true;
+                }
+                if (konto.getVerwendungszweck().contains("Ihren Einkauf bei Kaufland")) {
                     found = true;
                 }
                 if (konto.getVerwendungszweck().startsWith("102")) {
@@ -107,7 +114,7 @@ public class KontofileService {
             {
                 //LOG.info("transWert = " + trans.getWert());
                 //LOG.info("Kontowert = " + new Double(konto.getBetrag().replaceAll(",",".")));
-                if (Objects.equals(trans.getWert(), new Double(konto.getBetrag().replaceAll(",", ".")))) {
+                if (Objects.equals(trans.getWert(), Double.parseDouble(konto.getBetrag().replaceAll(",", ".")))) {
                     System.out.println("Found Match: " +trans.getName() + " <=> "+konto.getVerwendungszweck());
                     found = true;
                 }
