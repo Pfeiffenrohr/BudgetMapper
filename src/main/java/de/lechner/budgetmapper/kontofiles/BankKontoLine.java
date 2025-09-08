@@ -9,7 +9,7 @@ public class BankKontoLine {
     private String buchungstag;
     @CsvBindByPosition(position = 4)
     private String verwendungszweck;
-    @CsvBindByPosition(position = 14)
+    @CsvBindByPosition(position = 8)
     private String betrag;
     @CsvBindByPosition(position = 11)
     String name;

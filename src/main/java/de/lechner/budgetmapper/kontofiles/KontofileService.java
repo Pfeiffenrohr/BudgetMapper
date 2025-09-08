@@ -79,6 +79,21 @@ public class KontofileService {
                 if (konto.getVerwendungszweck().contains("Einkauf bei REWE")) {
                     found = true;
                 }
+                if (konto.getVerwendungszweck().contains("hr Einkauf bei Netto Marken-Discount")) {
+                    found = true;
+                }
+                if (konto.getVerwendungszweck().contains("Ihr Einkauf bei Baeckerei Sipl")) {
+                    found = true;
+                }
+                if (konto.getVerwendungszweck().contains("Ihr Einkauf bei Backhaus Hackner")) {
+                    found = true;
+                }
+                if (konto.getVerwendungszweck().contains("Ihr Einkauf bei Baecker Bachmeier")) {
+                    found = true;
+                }
+                if (konto.getVerwendungszweck().contains("Ihr Einkauf bei Fressnapf")) {
+                    found = true;
+                }
             }
             if ( ! found) {
                 System.out.println(konto.getVerwendungszweck());
@@ -115,7 +130,7 @@ public class KontofileService {
                 //LOG.info("transWert = " + trans.getWert());
                 //LOG.info("Kontowert = " + new Double(konto.getBetrag().replaceAll(",",".")));
                 if (Objects.equals(trans.getWert(), Double.parseDouble(konto.getBetrag().replaceAll(",", ".")))) {
-                    System.out.println("Found Match: " +trans.getName() + " <=> "+konto.getVerwendungszweck());
+                   // System.out.println("Found Match: " +trans.getName() + " <=> "+konto.getVerwendungszweck());
                     found = true;
                 }
                 if (konto.getName().contains("Ralph Jockisch")) {
