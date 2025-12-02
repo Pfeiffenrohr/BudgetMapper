@@ -31,7 +31,7 @@ public class KontofileService {
         LOG.info("Read All Lines done!" + list.size() +" Lines");
         for (BankKontoLine konto : list )
         {
-            Boolean found = false;
+            boolean found = false;
             Calendar calstart = Calendar.getInstance();
             Calendar calend = Calendar.getInstance();
             SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy");
@@ -113,7 +113,7 @@ public class KontofileService {
         LOG.info("Read All Lines done!" + list.size() +" Lines");
         for (BankKontoLine konto : list )
         {
-            Boolean found = false;
+            boolean found = false;
             Calendar calstart = Calendar.getInstance();
             Calendar calend = Calendar.getInstance();
             SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy");
