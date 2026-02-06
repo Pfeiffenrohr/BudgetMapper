@@ -2,6 +2,7 @@ package de.lechner.budgetmapper.kontofiles;
 
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+import de.lechner.budgetmapper.parser.Parser;
 import de.lechner.budgetmapper.transaction.ApiCall;
 import de.lechner.budgetmapper.transaction.Transaction;
 import org.slf4j.Logger;
@@ -25,9 +26,14 @@ public class KontofileService {
 
     private static final Logger LOG = LoggerFactory.getLogger(KontofileService.class);
     public String readCsvFile(String str) throws Exception {
-        List <BankKontoLine> list = new ArrayList<BankKontoLine>();
+        Parser parser = new Parser();
+        parser.parse();
+        return "";
+      /*  List <BankKontoLine> list = new ArrayList<BankKontoLine>();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
         list = readAllLines(str);
+
         LOG.info("Read All Lines done!" + list.size() +" Lines");
         for (BankKontoLine konto : list )
         {
@@ -103,7 +109,7 @@ public class KontofileService {
         }
 
         LOG.info("ReadCSVFile done!");
-        return "File read";
+        return "File read";*/
     }
 
     public String readCsvFile2(String str) throws Exception {
@@ -182,4 +188,5 @@ public class KontofileService {
         }*/
         return (List<BankKontoLine>) kontofile.parse();
         }
+
 }
