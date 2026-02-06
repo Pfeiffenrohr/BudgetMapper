@@ -10,6 +10,7 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -35,9 +36,8 @@ public class ApiCall {
         ResponseEntity<Transaction[]> response = restTemplate.getForEntity(transactions, Transaction[].class);
         if (response.hasBody()) {
             Transaction[] transaction = response.getBody();
-            for (int i = 0; i < transaction.length; i++) {
-                list.add(transaction[i]);
-            }
+            assert transaction != null;
+            list.addAll(Arrays.asList(transaction));
         }
         return list;
     }

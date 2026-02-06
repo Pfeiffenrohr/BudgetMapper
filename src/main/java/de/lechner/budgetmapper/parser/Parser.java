@@ -29,8 +29,8 @@ public class Parser {
         String[] lines;
 
         ApiCall apicall = new ApiCall();
-        String directoryPath = "C:\\temp\\Konto";
-
+        //String directoryPath = "C:\\temp\\Konto";
+        String directoryPath = "/Users/lechnerri/tmp/konto";
         List<String> allFiles = getAllFiles(directoryPath);
         for (String path : allFiles) {
            // String pfad = "C:/temp/Konto_0000539619-Auszug_2025_0009.txt";
