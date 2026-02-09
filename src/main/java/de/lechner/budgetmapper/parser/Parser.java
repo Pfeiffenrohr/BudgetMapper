@@ -117,6 +117,12 @@ public class Parser {
                         if (kontoItem.getVerwendungszweck().contains("Ihr Einkauf bei Fressnapf")) {
                             found = true;
                         }
+                        if (kontoItem.getVerwendungszweck().contains("Netto Marken-Discount")) {
+                            found = true;
+                        }
+                        if (kontoItem.getVerwendungszweck().contains("Kaufland")) {
+                            found = true;
+                        }
                     }
                     if (!found) {
                         System.out.println(kontoItem.getBuchungstag() + "  " + kontoItem.getBetrag() + " " + kontoItem.getVerwendungszweck() + "NOT FOUND!!!!");
