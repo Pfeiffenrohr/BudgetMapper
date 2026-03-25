@@ -10,14 +10,15 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class ApiCall {
     @Value("${budgetserver.host}")
-    private String host;
+    private String host="h2915074.stratoserver.net";
     @Value("${budgetserver.port}")
-    private String port;
+    private String port="8092";
     private static final Logger LOG = LoggerFactory.getLogger(ApiCall.class);
     public List<Transaction> getTransactions(String startdate, String enddate ) {
         //   LOG.info("Start getAllAnlagen");
@@ -35,9 +36,8 @@ public class ApiCall {
         ResponseEntity<Transaction[]> response = restTemplate.getForEntity(transactions, Transaction[].class);
         if (response.hasBody()) {
             Transaction[] transaction = response.getBody();
-            for (int i = 0; i < transaction.length; i++) {
-                list.add(transaction[i]);
-            }
+            assert transaction != null;
+            list.addAll(Arrays.asList(transaction));
         }
         return list;
     }
