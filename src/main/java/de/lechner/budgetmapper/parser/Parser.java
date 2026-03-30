@@ -46,6 +46,9 @@ public class Parser {
                         // System.out.println(items[items.length-1].replace(".","").replace(",",".")+" is not Double");
                         continue;
                     }
+                    if (items.length < 3  ) {
+                        continue;
+                    }
                     kontoItem.setBuchungstag(items[0]);
                     kontoItem.setName(items[1]);
                     kontoItem.setVerwendungszweck(dateiInhalt.get(i + 1));
@@ -87,7 +90,7 @@ public class Parser {
                         if (kontoItem.getVerwendungszweck().contains("Ihr Einkauf bei EDEKA")) {
                             found = true;
                         }
-                        if (kontoItem.getVerwendungszweck().contains("Ihr Einkauf bei Baeckerei Wiesender")) {
+                        if (kontoItem.getVerwendungszweck().contains("Baeckerei Wiesender")) {
                             found = true;
                         }
                         if (kontoItem.getVerwendungszweck().contains("Ihren Einkauf bei Kaufland")) {
