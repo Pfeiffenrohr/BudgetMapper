@@ -30,7 +30,7 @@ public class Parser {
         KontoItemProtokollierer protokollierer = new KontoItemProtokollierer("kontoauszug.csv");
         ApiCall apicall = new ApiCall();
         //String directoryPath = "C:\\temp\\Konto";
-        String directoryPath = "/Users/lechnerri/tmp/konto";
+        String directoryPath = "konto";
         List<String> allFiles = getAllFiles(directoryPath);
         for (String path : allFiles) {
             // String pfad = "C:/temp/Konto_0000539619-Auszug_2025_0009.txt";
@@ -103,6 +103,9 @@ public class Parser {
                             found = true;
                         }
                         if (kontoItem.getVerwendungszweck().contains("Einkauf bei REWE")) {
+                            found = true;
+                        }
+                        if (kontoItem.getVerwendungszweck().contains("Netto Ma")) {
                             found = true;
                         }
                         if (kontoItem.getVerwendungszweck().contains("hr Einkauf bei Netto Marken-Discount")) {
