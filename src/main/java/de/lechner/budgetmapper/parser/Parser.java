@@ -27,13 +27,13 @@ public class Parser {
 
     public void parse() throws Exception {
         String[] lines;
-
+        KontoItemProtokollierer protokollierer = new KontoItemProtokollierer("kontoauszug.csv");
         ApiCall apicall = new ApiCall();
         //String directoryPath = "C:\\temp\\Konto";
-        String directoryPath = "/Users/lechnerri/tmp/konto";
+        String directoryPath = "konto";
         List<String> allFiles = getAllFiles(directoryPath);
         for (String path : allFiles) {
-           // String pfad = "C:/temp/Konto_0000539619-Auszug_2025_0009.txt";
+            // String pfad = "C:/temp/Konto_0000539619-Auszug_2025_0009.txt";
             List<String> dateiInhalt = ReadTextFile.readFileAsLines(path);
             for (int i = 0; i < dateiInhalt.size(); i++) {
                 if (hasRequiredPrefix(dateiInhalt.get(i))) {
@@ -44,6 +44,9 @@ public class Parser {
                     //System.out.println(items[0]+"§"+dateiInhalt.get(i+1)+"§"+items[items.length-1].replace(".","").replace(",","."));
                     if (!isDouble(items[items.length - 1].replace(".", "").replace(",", "."))) {
                         // System.out.println(items[items.length-1].replace(".","").replace(",",".")+" is not Double");
+                        continue;
+                    }
+                    if (items.length < 3  ) {
                         continue;
                     }
                     kontoItem.setBuchungstag(items[0]);
@@ -87,7 +90,7 @@ public class Parser {
                         if (kontoItem.getVerwendungszweck().contains("Ihr Einkauf bei EDEKA")) {
                             found = true;
                         }
-                        if (kontoItem.getVerwendungszweck().contains("Ihr Einkauf bei Baeckerei Wiesender")) {
+                        if (kontoItem.getVerwendungszweck().contains("Baeckerei Wiesender")) {
                             found = true;
                         }
                         if (kontoItem.getVerwendungszweck().contains("Ihren Einkauf bei Kaufland")) {
@@ -100,6 +103,9 @@ public class Parser {
                             found = true;
                         }
                         if (kontoItem.getVerwendungszweck().contains("Einkauf bei REWE")) {
+                            found = true;
+                        }
+                        if (kontoItem.getVerwendungszweck().contains("Netto Ma")) {
                             found = true;
                         }
                         if (kontoItem.getVerwendungszweck().contains("hr Einkauf bei Netto Marken-Discount")) {
@@ -125,11 +131,15 @@ public class Parser {
                         }
                     }
                     if (!found) {
-                        System.out.println(kontoItem.getBuchungstag() + "  " + kontoItem.getBetrag() + " " + kontoItem.getVerwendungszweck() + "NOT FOUND!!!!");
+                        if (! protokollierer.istItemVerarbeitet(kontoItem)) {
+                            protokollierer.schreibeItemWennNeu(kontoItem);
+                            System.out.println(kontoItem.getBuchungstag() + "  " + kontoItem.getBetrag() + " " + kontoItem.getVerwendungszweck() + "NOT FOUND!!!!");
+                        }
                     }
                 }
             }
         }
+        System.out.println("Run finished");
     }
 
     private static boolean hasRequiredPrefix(String input) {
