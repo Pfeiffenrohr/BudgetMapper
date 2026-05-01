@@ -139,6 +139,7 @@ public class Parser {
                 }
             }
         }
+        System.out.println("Run finished");
     }
 
     private static boolean hasRequiredPrefix(String input) {
